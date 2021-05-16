@@ -9,16 +9,15 @@ RUN apt-get -y update && \
 
 RUN mkdir -p /usr/src/autobarn
 WORKDIR /usr/src/autobarn
-
 COPY . /usr/src/autobarn
 
-# Grant permissions for the import-data script to be executable
-RUN chmod +x /usr/src/autobarn/import-data.sh
-COPY . /usr/src/autobarn
-
+#fix any DOS-style line endings
 RUN dos2unix *
 RUN dos2unix csv-data/*
 
-USER mssql
+# Grant permissions for the import-data script to be executable
+RUN chmod 755 /usr/src/autobarn/import-data.sh
+# RUN chown mssql /usr/src/autobarn/import-data.sh
 
+USER mssql
 ENTRYPOINT /bin/bash ./entrypoint.sh
