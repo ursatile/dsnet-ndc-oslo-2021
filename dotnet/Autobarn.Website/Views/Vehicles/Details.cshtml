@@ -1,0 +1,15 @@
+﻿@model Autobarn.Data.Entities.Vehicle
+@{
+    ViewData["Title"] = $"{Model.Registration} : Autobarn";
+}
+<h1>@Model.Registration</h1>
+<hr />
+<strong>
+    @Model.ModelCodeNavigation.ManufacturerCodeNavigation.Name
+    @Model.ModelCodeNavigation.Name
+</strong>
+Year: @Model.Year
+Colour: @Model.Color
+<hr />
+
+

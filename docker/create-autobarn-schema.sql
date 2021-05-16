@@ -5,20 +5,20 @@ GO
 
 CREATE TABLE [dbo].[Manufacturers] (
 	[Code] [varchar](32) NOT NULL PRIMARY KEY,
-	[Name] [varchar](32) NULL
+	[Name] [varchar](32) NOT NULL
 )
 
 CREATE TABLE [dbo].[Models](
 	[Code] [varchar](32) NOT NULL PRIMARY KEY,
-	[ManufacturerCode] [varchar](32) NULL,
-	[Name] [varchar](32) NULL
+	[ManufacturerCode] [varchar](32) NOT NULL,
+	[Name] [varchar](32) NOT NULL
 )
 
 CREATE TABLE [dbo].[Vehicles](
 	[Registration] [varchar](16) NOT NULL PRIMARY KEY,
-	[ModelCode] [varchar](32) NULL,
-	[Color] [varchar](32) NULL,
-	[Year] [int] NULL,
+	[ModelCode] [varchar](32) NOT NULL,
+	[Color] [varchar](32) NOT NULL,
+	[Year] [int] NOT NULL,
 )
 
 ALTER TABLE [dbo].[Models]  WITH CHECK ADD  CONSTRAINT [FK_Models_Manufacturers] FOREIGN KEY([ManufacturerCode])
