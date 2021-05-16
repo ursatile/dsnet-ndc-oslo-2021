@@ -19,7 +19,7 @@
 <ul>
     @foreach (var vehicleModel in Model.Models.Where(m => m.Vehicles.Count == 0)) {
         <li>
-            @vehicleModel.Name
+            <a href="@Url.Action("Vehicles", "Models", new { id = vehicleModel.Code })">@vehicleModel.Name</a>
         </li>
     }
 </ul>

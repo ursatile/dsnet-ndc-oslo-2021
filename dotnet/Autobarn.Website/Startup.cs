@@ -33,8 +33,15 @@ namespace Autobarn.Website {
 
 			services.AddRouting(options => options.LowercaseUrls = true);
 			services.AddControllersWithViews();
+
+#if DEBUG
+			services.AddRazorPages().AddRazorRuntimeCompilation();
+#else
+			services.AddRazorPages();
+#endif
 			var autobarnConnectionString = Configuration.GetConnectionString("AutobarnConnectionString");
 			services.AddDbContext<AutobarnDbContext>(options => {
+				options.UseLazyLoadingProxies();
 				options.UseLoggerFactory(loggerFactory);
 				options.UseSqlServer(autobarnConnectionString);
 			});

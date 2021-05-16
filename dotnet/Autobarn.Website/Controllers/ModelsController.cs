@@ -18,5 +18,10 @@ namespace Autobarn.Website.Controllers {
 			var model = db.ListModels().FirstOrDefault(m => m.Code == id);
 			return View(model);
 		}
+
+		public IActionResult Index() {
+			var models = db.ListModels();
+			return View(models);
+		}
 	}
 }

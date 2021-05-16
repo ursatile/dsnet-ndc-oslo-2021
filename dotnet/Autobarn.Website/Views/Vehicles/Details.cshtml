@@ -7,11 +7,12 @@
 <dl>
     <dt>Make:</dt>
     <dd><a href="@Url.Action("Models", "Manufacturers", new { id = Model.VehicleModel.ManufacturerCode})">@Model.VehicleModel.Manufacturer.Name</a></dd>
+    <dt>Model:</dt>
+    <dd>@Model.VehicleModel.Name</dd>
+    <dt>Year:</dt>
+    <dd>@Model.Year</dd>
+    <dt>Colour:</dt>
+    <dd>@Model.Color</dd>
 </dl>
-@Model.VehicleModel.Name
-</strong>
-Year: @Model.Year
-Colour: @Model.Color
-<hr />
 
 
