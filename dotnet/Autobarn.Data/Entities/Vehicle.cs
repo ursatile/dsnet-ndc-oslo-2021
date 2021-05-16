@@ -10,6 +10,6 @@ namespace Autobarn.Data.Entities {
 		public string Color { get; set; }
 		public int? Year { get; set; }
 
-		public virtual Model ModelCodeNavigation { get; set; }
+		public virtual Model VehicleModel { get; set; }
 	}
 }

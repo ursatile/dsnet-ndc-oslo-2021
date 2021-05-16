@@ -12,4 +12,8 @@
     <ProjectReference Include="..\Autobarn.Data\Autobarn.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\" />
+  </ItemGroup>
+
 </Project>

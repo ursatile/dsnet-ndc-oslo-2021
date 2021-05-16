@@ -4,9 +4,11 @@
 }
 <h1>@Model.Registration</h1>
 <hr />
-<strong>
-    @Model.ModelCodeNavigation.ManufacturerCodeNavigation.Name
-    @Model.ModelCodeNavigation.Name
+<dl>
+    <dt>Make:</dt>
+    <dd><a href="@Url.Action("Models", "Manufacturers", new { id = Model.VehicleModel.ManufacturerCode})">@Model.VehicleModel.Manufacturer.Name</a></dd>
+</dl>
+@Model.VehicleModel.Name
 </strong>
 Year: @Model.Year
 Colour: @Model.Color

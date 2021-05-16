@@ -65,7 +65,7 @@ namespace Autobarn.Data.Entities
                     .HasMaxLength(32)
                     .IsUnicode(false);
 
-                entity.HasOne(d => d.ManufacturerCodeNavigation)
+                entity.HasOne(d => d.Manufacturer)
                     .WithMany(p => p.Models)
                     .HasForeignKey(d => d.ManufacturerCode)
                     .HasConstraintName("FK_Models_Manufacturers");
@@ -88,7 +88,7 @@ namespace Autobarn.Data.Entities
                     .HasMaxLength(32)
                     .IsUnicode(false);
 
-                entity.HasOne(d => d.ModelCodeNavigation)
+                entity.HasOne(d => d.VehicleModel)
                     .WithMany(p => p.Vehicles)
                     .HasForeignKey(d => d.ModelCode)
                     .HasConstraintName("FK_Vehicles_Models");

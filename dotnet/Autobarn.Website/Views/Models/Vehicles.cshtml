@@ -1,0 +1,9 @@
+﻿@model Autobarn.Data.Entities.Model
+
+<h1>@Model.Manufacturer.Name @Model.Name</h1>
+<hr />
+<ul>
+    @foreach (var vehicle in Model.Vehicles) {
+        <li>@vehicle.Registration</li>
+    }
+</ul>

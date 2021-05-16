@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace Autobarn.Website {
 	public class Startup {
@@ -22,9 +23,21 @@ namespace Autobarn.Website {
 
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services) {
+
+			var loggerFactory = LoggerFactory.Create(builder => {
+				builder
+					.AddConsole(_ => { })
+					.AddFilter((category, level) =>
+						category == DbLoggerCategory.Database.Command.Name && level == LogLevel.Information);
+			});
+
+			services.AddRouting(options => options.LowercaseUrls = true);
 			services.AddControllersWithViews();
 			var autobarnConnectionString = Configuration.GetConnectionString("AutobarnConnectionString");
-			services.AddDbContext<AutobarnDbContext>(options => options.UseSqlServer(autobarnConnectionString));
+			services.AddDbContext<AutobarnDbContext>(options => {
+				options.UseLoggerFactory(loggerFactory);
+				options.UseSqlServer(autobarnConnectionString);
+			});
 			services.AddScoped<IAutobarnDatabase, AutobarnSqlDatabase>();
 		}
 
