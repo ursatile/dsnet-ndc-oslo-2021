@@ -18,4 +18,6 @@ namespace Autobarn.Data {
 		
 		public void AddVehicle(Vehicle vehicle);
 	}
+
+
 }

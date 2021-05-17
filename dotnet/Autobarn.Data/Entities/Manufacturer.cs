@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 #nullable disable
 
@@ -12,6 +13,7 @@ namespace Autobarn.Data.Entities {
 		public string Code { get; set; }
 		public string Name { get; set; }
 
+		[JsonIgnore]
 		public virtual ICollection<Model> Models { get; set; }
 	}
 }

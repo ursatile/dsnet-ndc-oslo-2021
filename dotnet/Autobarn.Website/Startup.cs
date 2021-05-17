@@ -32,7 +32,7 @@ namespace Autobarn.Website {
 			});
 
 			services.AddRouting(options => options.LowercaseUrls = true);
-			services.AddControllersWithViews();
+			services.AddControllersWithViews().AddNewtonsoftJson();
 
 #if DEBUG
 			services.AddRazorPages().AddRazorRuntimeCompilation();
@@ -58,6 +58,7 @@ namespace Autobarn.Website {
 				app.UseHsts();
 			}
 			app.UseHttpsRedirection();
+			app.UseDefaultFiles();
 			app.UseStaticFiles();
 
 			app.UseRouting();
