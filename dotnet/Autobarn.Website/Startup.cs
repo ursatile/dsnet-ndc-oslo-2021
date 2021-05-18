@@ -39,7 +39,7 @@ namespace Autobarn.Website {
 #else
 			services.AddRazorPages();
 #endif
-			var autobarnConnectionString = Configuration.GetConnectionString("AutobarnConnectionString");
+			var autobarnConnectionString = Configuration.GetConnectionString("AutobarnSqlConnectionString");
 			services.AddDbContext<AutobarnDbContext>(options => {
 				options.UseLazyLoadingProxies();
 				options.UseLoggerFactory(loggerFactory);
