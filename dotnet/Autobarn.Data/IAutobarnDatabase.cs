@@ -15,9 +15,7 @@ namespace Autobarn.Data {
 		public Vehicle FindVehicle(string registration);
 		public Model FindModel(string code);
 		public Manufacturer FindManufacturer(string code);
-		
+
 		public void AddVehicle(Vehicle vehicle);
 	}
-
-
 }
