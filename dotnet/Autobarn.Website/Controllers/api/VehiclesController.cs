@@ -68,7 +68,7 @@ namespace Autobarn.Website.Controllers.api {
 				Year = dto.Year,
 				VehicleModel = vehicleModel
 			};
-			db.AddVehicle(vehicle);
+			db.CreateVehicle(vehicle);
 			bus.PublishNewVehicleNotification(dto);
 			return Ok(dto);
 		}
@@ -76,6 +76,14 @@ namespace Autobarn.Website.Controllers.api {
 		// PUT api/vehicles/5
 		[HttpPut("{id}")]
 		public IActionResult Put(string id, [FromBody] VehicleDto dto) {
+			var vehicleModel = db.FindModel(dto.ModelCode);
+			var vehicle = new Vehicle {
+				Registration = dto.Registration,
+				Color = dto.Color,
+				Year = dto.Year,
+				ModelCode = vehicleModel.Code
+			}; 
+			db.UpdateVehicle(vehicle);
 			return Ok(dto);
 		}
 

@@ -52,7 +52,7 @@ namespace Autobarn.Website.Controllers {
 				VehicleModel = vehicleModel,
 				Year = dto.Year
 			};
-			db.AddVehicle(vehicle);
+			db.CreateVehicle(vehicle);
 			return RedirectToAction("Details", new { id = vehicle.Registration });
 		}
 	}
