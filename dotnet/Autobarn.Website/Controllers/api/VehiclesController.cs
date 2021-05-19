@@ -5,7 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Autobarn.Data;
 using Autobarn.Data.Entities;
+using Autobarn.Website.Messaging;
 using Autobarn.Website.Models;
+using Azure.Messaging.ServiceBus;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -38,10 +40,12 @@ namespace Autobarn.Website.Controllers.api {
 	[ApiController]
 	public class VehiclesController : ControllerBase {
 		private readonly IAutobarnDatabase db;
+		private readonly IAutobarnServiceBus bus;
 
 		// GET: api/vehicles
-		public VehiclesController(IAutobarnDatabase db) {
+		public VehiclesController(IAutobarnDatabase db, IAutobarnServiceBus bus) {
 			this.db = db;
+			this.bus = bus;
 		}
 		[HttpGet]
 		public IEnumerable<Vehicle> Get() {
@@ -65,6 +69,7 @@ namespace Autobarn.Website.Controllers.api {
 				VehicleModel = vehicleModel
 			};
 			db.AddVehicle(vehicle);
+			bus.PublishNewVehicleNotification(dto);
 			return Ok(dto);
 		}
 

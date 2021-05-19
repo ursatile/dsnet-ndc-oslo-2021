@@ -4,10 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Autobarn.Data;
 using Autobarn.Data.Entities;
+using Autobarn.Website.Messaging;
+using Azure.Messaging.ServiceBus;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -39,13 +42,19 @@ namespace Autobarn.Website {
 #else
 			services.AddRazorPages();
 #endif
-			var autobarnConnectionString = Configuration.GetConnectionString("AutobarnSqlConnectionString");
+			var sqlConnectionString = Configuration.GetConnectionString("AutobarnSqlConnectionString");
 			services.AddDbContext<AutobarnDbContext>(options => {
 				options.UseLazyLoadingProxies();
 				options.UseLoggerFactory(loggerFactory);
-				options.UseSqlServer(autobarnConnectionString);
+				options.UseSqlServer(sqlConnectionString);
 			});
 			services.AddScoped<IAutobarnDatabase, AutobarnSqlDatabase>();
+			var busConnectionString = Configuration.GetConnectionString("AzureServiceBusConnectionString");
+			services.AddSingleton(_ => new ServiceBusClient(busConnectionString));
+
+			services.AddSingleton<IAutobarnServiceBus>(s => new AutobarnAzureServiceBus(
+				s.GetRequiredService<ServiceBusClient>(),
+				Configuration["ServiceBus:TopicName"]));
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
