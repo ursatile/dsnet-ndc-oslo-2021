@@ -1,9 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Autobarn.Data.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace Autobarn.Data {
 	public interface IAutobarnDatabase {

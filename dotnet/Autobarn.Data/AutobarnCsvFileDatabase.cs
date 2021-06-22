@@ -2,18 +2,17 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.NetworkInformation;
 using System.Reflection;
 using Autobarn.Data.Entities;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Microsoft.Extensions.Logging;
+using static System.Int32;
 
 namespace Autobarn.Data {
 	public class AutobarnCsvFileDatabase : IAutobarnDatabase {
 		private static readonly IEqualityComparer<string> collation = StringComparer.OrdinalIgnoreCase;
-		private static readonly Dictionary<string, Manufacturer> manufacturers = new(collation);
-		private static readonly Dictionary<string, Model> models = new(collation);
-		private static readonly Dictionary<string, Vehicle> vehicles = new(collation);
+		private readonly Dictionary<string, Manufacturer> manufacturers = new(collation);
+		private readonly Dictionary<string, Model> models = new(collation);
+		private readonly Dictionary<string, Vehicle> vehicles = new(collation);
 		private readonly ILogger<AutobarnCsvFileDatabase> logger;
 
 		public AutobarnCsvFileDatabase(ILogger<AutobarnCsvFileDatabase> logger) {
@@ -24,7 +23,7 @@ namespace Autobarn.Data {
 			ResolveReferences();
 		}
 
-		private static void ResolveReferences() {
+		private void ResolveReferences() {
 			foreach (var mfr in manufacturers.Values) {
 				mfr.Models = models.Values.Where(m => m.ManufacturerCode == mfr.Code).ToList();
 				foreach (var model in mfr.Models) model.Manufacturer = mfr;
@@ -36,7 +35,7 @@ namespace Autobarn.Data {
 			}
 		}
 
-		private static string ResolveCsvFilePath(string filename) {
+		private string ResolveCsvFilePath(string filename) {
 			var directory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 			var csvFilePath = Path.Combine(directory, "csv-data");
 			return Path.Combine(csvFilePath, filename);
@@ -51,10 +50,9 @@ namespace Autobarn.Data {
 					ModelCode = tokens[1],
 					Color = tokens[2]
 				};
-				if (Int32.TryParse(tokens[3], out var year)) vehicle.Year = year;
+				if (TryParse(tokens[3], out var year)) vehicle.Year = year;
 				vehicles[vehicle.Registration] = vehicle;
 			}
-
 			logger.LogInformation($"Loaded {vehicles.Count} models from {filePath}");
 		}
 
@@ -109,6 +107,7 @@ namespace Autobarn.Data {
 		public void DeleteVehicle(Vehicle vehicle) {
 			var model = FindModel(vehicle.ModelCode);
 			model.Vehicles.Remove(vehicle);
+			vehicles.Remove(vehicle.Registration);
 		}
 	}
 }

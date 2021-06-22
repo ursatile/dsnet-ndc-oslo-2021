@@ -1,17 +1,15 @@
+using System;
 using Autobarn.Data;
-using Autobarn.Data.Entities;
-using Autobarn.Website.Messaging;
-using Azure.Messaging.ServiceBus;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace Autobarn.Website {
 	public class Startup {
+		protected virtual string DatabaseMode => Configuration["DatabaseMode"];
+
 		public Startup(IConfiguration configuration) {
 			Configuration = configuration;
 		}
@@ -23,8 +21,8 @@ namespace Autobarn.Website {
 			services.AddRouting(options => options.LowercaseUrls = true);
 			services.AddControllersWithViews().AddNewtonsoftJson();
 			services.AddRazorPages().AddRazorRuntimeCompilation();
-
-			switch (Configuration["DatabaseMode"]) {
+			Console.WriteLine(DatabaseMode);
+			switch (DatabaseMode) {
 				case "sql":
 					var sqlConnectionString = Configuration.GetConnectionString("AutobarnSqlConnectionString");
 					services.UseAutobarnSqlDatabase(sqlConnectionString);
@@ -33,13 +31,6 @@ namespace Autobarn.Website {
 					services.AddSingleton<IAutobarnDatabase, AutobarnCsvFileDatabase>();
 					break;
 			}
-
-			var busConnectionString = Configuration.GetConnectionString("AzureServiceBusConnectionString");
-			services.AddSingleton(_ => new ServiceBusClient(busConnectionString));
-
-			services.AddSingleton<IAutobarnServiceBus>(s => new AutobarnAzureServiceBus(
-				s.GetRequiredService<ServiceBusClient>(),
-				Configuration["ServiceBus:TopicName"]));
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
