@@ -6,11 +6,10 @@ using Newtonsoft.Json;
 using Xunit;
 
 namespace Autobarn.Website.ApiTests {
-	public class VehiclesApiTests
-		: IClassFixture<WebApplicationFactory<Startup>> {
-		private readonly WebApplicationFactory<Autobarn.Website.Startup> factory;
+	public class VehiclesApiTests : IClassFixture<WebApplicationFactory<Startup>> {
+		private readonly WebApplicationFactory<Startup> factory;
 
-		public VehiclesApiTests(WebApplicationFactory<Autobarn.Website.Startup> factory) {
+		public VehiclesApiTests(WebApplicationFactory<Startup> factory) {
 			this.factory = factory;
 		}
 

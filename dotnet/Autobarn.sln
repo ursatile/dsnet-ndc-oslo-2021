@@ -7,11 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Autobarn.Website", "Autobar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Autobarn.Data", "Autobarn.Data\Autobarn.Data.csproj", "{8B6C8131-EBC3-4DE2-8CE6-707484BA1BAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Autobarn.AuditLog", "Autobarn.AuditLog\Autobarn.AuditLog.csproj", "{3B1D7EE4-3177-47CB-B7A1-6A4B8B40E05B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Autobarn.AuditLog", "Autobarn.AuditLog\Autobarn.AuditLog.csproj", "{3B1D7EE4-3177-47CB-B7A1-6A4B8B40E05B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Autobarn.Notifier", "Autobarn.Notifier\Autobarn.Notifier.csproj", "{0A404D65-1E41-4081-B2A3-31178B0CDC5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Autobarn.Website.ApiTests", "Autobarn.Website.ApiTests\Autobarn.Website.ApiTests.csproj", "{39C4F7B7-43D1-493F-97EE-E7C57D6C7F07}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Autobarn.Website.ApiTests", "Autobarn.Website.ApiTests\Autobarn.Website.ApiTests.csproj", "{39C4F7B7-43D1-493F-97EE-E7C57D6C7F07}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

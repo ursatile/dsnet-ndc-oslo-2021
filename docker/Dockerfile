@@ -17,7 +17,6 @@ RUN dos2unix csv-data/*
 
 # Grant permissions for the import-data script to be executable
 RUN chmod 755 /usr/src/autobarn/import-data.sh
-# RUN chown mssql /usr/src/autobarn/import-data.sh
 
 USER mssql
 ENTRYPOINT /bin/bash ./entrypoint.sh

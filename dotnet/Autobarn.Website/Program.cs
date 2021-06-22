@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.IO;
 using System.Net;
+using Microsoft.Extensions.Logging;
 
 namespace Autobarn.Website {
 	public class Program {
@@ -12,7 +13,12 @@ namespace Autobarn.Website {
 		}
 
 		public static IHostBuilder CreateHostBuilder(string[] args) =>
-			Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder => {
+			Host.CreateDefaultBuilder(args)
+				.ConfigureLogging(logging => {
+					logging.ClearProviders();
+					logging.AddConsole();
+				})
+				.ConfigureWebHostDefaults(webBuilder => {
 					webBuilder.ConfigureKestrel(options => {
 						var pfxPassword = Environment.GetEnvironmentVariable("UrsatilePfxPassword");
 						var https = UseCertIfAvailable(@"d:\workshop.ursatile.com\ursatile.com.pfx", pfxPassword);

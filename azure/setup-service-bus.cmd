@@ -2,8 +2,7 @@ call az account set --subscription "172d74c0-182e-4951-93fa-c451f1c945e5"
 set RG=ursatile-workshops-resource-group
 set NS=autobarn-namespace
 call az servicebus namespace authorization-rule keys list --resource-group %RG% --namespace-name %NS% --name RootManageSharedAccessKey --query primaryConnectionString --output tsv    
-echo About to delete and recreate service bus topics
-pause
+
 call az servicebus namespace delete --resource-group %RG% --name %NS%
 call az servicebus namespace create --resource-group %RG% --name %NS%
 call az servicebus topic create --resource-group %RG% --namespace-name %NS% --name autobarn-new-vehicle-topic

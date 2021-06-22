@@ -1,16 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Autobarn.Data;
 using Autobarn.Data.Entities;
 using Autobarn.Website.Messaging;
 using Azure.Messaging.ServiceBus;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,29 +20,20 @@ namespace Autobarn.Website {
 
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services) {
-
-			var loggerFactory = LoggerFactory.Create(builder => {
-				builder
-					.AddConsole(_ => { })
-					.AddFilter((category, level) =>
-						category == DbLoggerCategory.Database.Command.Name && level == LogLevel.Information);
-			});
-
 			services.AddRouting(options => options.LowercaseUrls = true);
 			services.AddControllersWithViews().AddNewtonsoftJson();
-
-#if DEBUG
 			services.AddRazorPages().AddRazorRuntimeCompilation();
-#else
-			services.AddRazorPages();
-#endif
-			var sqlConnectionString = Configuration.GetConnectionString("AutobarnSqlConnectionString");
-			services.AddDbContext<AutobarnDbContext>(options => {
-				options.UseLazyLoadingProxies();
-				options.UseLoggerFactory(loggerFactory);
-				options.UseSqlServer(sqlConnectionString);
-			});
-			services.AddScoped<IAutobarnDatabase, AutobarnSqlDatabase>();
+
+			switch (Configuration["DatabaseMode"]) {
+				case "sql":
+					var sqlConnectionString = Configuration.GetConnectionString("AutobarnSqlConnectionString");
+					services.UseAutobarnSqlDatabase(sqlConnectionString);
+					break;
+				default:
+					services.AddSingleton<IAutobarnDatabase, AutobarnCsvFileDatabase>();
+					break;
+			}
+
 			var busConnectionString = Configuration.GetConnectionString("AzureServiceBusConnectionString");
 			services.AddSingleton(_ => new ServiceBusClient(busConnectionString));
 
@@ -57,7 +42,6 @@ namespace Autobarn.Website {
 				Configuration["ServiceBus:TopicName"]));
 		}
 
-		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
 			if (env.IsDevelopment()) {
 				app.UseDeveloperExceptionPage();
@@ -69,11 +53,8 @@ namespace Autobarn.Website {
 			app.UseHttpsRedirection();
 			app.UseDefaultFiles();
 			app.UseStaticFiles();
-
 			app.UseRouting();
-
 			app.UseAuthorization();
-
 			app.UseEndpoints(endpoints => {
 				endpoints.MapControllerRoute(
 					name: "default",
