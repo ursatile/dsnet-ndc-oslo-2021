@@ -8,6 +8,8 @@ namespace Autobarn.Data {
 
 		public AutobarnSqlDatabase(AutobarnDbContext dbContext) => this.dbContext = dbContext;
 
+		public int CountVehicles() => dbContext.Vehicles.Count();
+
 		public IEnumerable<Vehicle> ListVehicles() => dbContext.Vehicles;
 
 		public IEnumerable<Manufacturer> ListManufacturers() => dbContext.Manufacturers;
