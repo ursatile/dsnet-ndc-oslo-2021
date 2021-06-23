@@ -3,6 +3,7 @@ using Autobarn.Data.Entities;
 
 namespace Autobarn.Data {
 	public interface IAutobarnDatabase {
+		public int CountVehicles();
 		public IEnumerable<Vehicle> ListVehicles();
 		public IEnumerable<Manufacturer> ListManufacturers();
 		public IEnumerable<Model> ListModels();

@@ -83,6 +83,8 @@ namespace Autobarn.Data {
 			logger.LogInformation($"Loaded {manufacturers.Count} manufacturers from {filePath}");
 		}
 
+		public int CountVehicles() => vehicles.Count;
+
 		public IEnumerable<Vehicle> ListVehicles() => vehicles.Values;
 
 		public IEnumerable<Manufacturer> ListManufacturers() => manufacturers.Values;
