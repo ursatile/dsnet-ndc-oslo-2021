@@ -1,5 +1,3 @@
-using System;
-
 namespace Autobarn.Website.Models
 {
     public class ErrorViewModel

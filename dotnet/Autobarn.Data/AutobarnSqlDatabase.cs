@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Autobarn.Data.Entities;
 
 namespace Autobarn.Data {
@@ -13,14 +14,29 @@ namespace Autobarn.Data {
 
 		public IEnumerable<Model> ListModels() => dbContext.Models;
 
-		public Vehicle FindVehicle(string registration) => dbContext.Vehicles.Find(registration);
+		public Vehicle FindVehicle(string registration) => dbContext.Vehicles.FirstOrDefault(v => v.Registration == registration);
 
 		public Model FindModel(string code) => dbContext.Models.Find(code);
 
 		public Manufacturer FindManufacturer(string code) => dbContext.Manufacturers.Find(code);
 
-		public void AddVehicle(Vehicle vehicle) {
+		public void CreateVehicle(Vehicle vehicle) {
 			dbContext.Vehicles.Add(vehicle);
+			dbContext.SaveChanges();
+		}
+
+		public void UpdateVehicle(Vehicle vehicle) {
+			var existing = FindVehicle(vehicle.Registration);
+			if (existing == default) {
+				dbContext.Vehicles.Add(vehicle);
+			} else {
+				dbContext.Entry(existing).CurrentValues.SetValues(vehicle);
+			}
+			dbContext.SaveChanges();
+		}
+
+		public void DeleteVehicle(Vehicle vehicle) {
+			dbContext.Vehicles.Remove(vehicle);
 			dbContext.SaveChanges();
 		}
 	}

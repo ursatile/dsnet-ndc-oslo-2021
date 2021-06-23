@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Autobarn.Data;
 using Autobarn.Data.Entities;
 using Autobarn.Website.Models;
@@ -10,30 +7,6 @@ using Autobarn.Website.Models;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Autobarn.Website.Controllers.api {
-	[Route("api")]
-	[ApiController]
-	public class ApiController : ControllerBase {
-		[HttpGet]
-		public IActionResult Get() {
-			var result = new {
-				_links = new {
-					vehicles = new {
-						href = "/api/vehicles"
-					}
-				},
-				_actions = new {
-					create = new {
-						name = "Add a car",
-						href = "/api/vehicles/",
-						method = "POST",
-						type = "application/json"
-					}
-				}
-			};
-			return Ok(result);
-		}
-	}
-
 	[Route("api/[controller]")]
 	[ApiController]
 	public class VehiclesController : ControllerBase {
@@ -43,15 +16,18 @@ namespace Autobarn.Website.Controllers.api {
 		public VehiclesController(IAutobarnDatabase db) {
 			this.db = db;
 		}
+
 		[HttpGet]
 		public IEnumerable<Vehicle> Get() {
 			return db.ListVehicles();
 		}
 
-		// GET api/vehicles/5
+		// GET api/vehicles/ABC123
 		[HttpGet("{id}")]
-		public Vehicle Get(string id) {
-			return db.FindVehicle(id);
+		public IActionResult Get(string id) {
+			var vehicle = db.FindVehicle(id);
+			if (vehicle == default) return NotFound();
+			return Ok(vehicle);
 		}
 
 		// POST api/vehicles
@@ -64,20 +40,31 @@ namespace Autobarn.Website.Controllers.api {
 				Year = dto.Year,
 				VehicleModel = vehicleModel
 			};
-			db.AddVehicle(vehicle);
+			db.CreateVehicle(vehicle);
 			return Ok(dto);
 		}
 
-		// PUT api/vehicles/5
+		// PUT api/vehicles/ABC123
 		[HttpPut("{id}")]
 		public IActionResult Put(string id, [FromBody] VehicleDto dto) {
+			var vehicleModel = db.FindModel(dto.ModelCode);
+			var vehicle = new Vehicle {
+				Registration = dto.Registration,
+				Color = dto.Color,
+				Year = dto.Year,
+				ModelCode = vehicleModel.Code
+			}; 
+			db.UpdateVehicle(vehicle);
 			return Ok(dto);
 		}
 
-		// DELETE api/vehicles/5
+		// DELETE api/vehicles/ABC123
 		[HttpDelete("{id}")]
 		public IActionResult Delete(string id) {
-			return Ok(id);
+			var vehicle = db.FindVehicle(id);
+			if (vehicle == default) return NotFound();
+			db.DeleteVehicle(vehicle);
+			return NoContent();
 		}
 	}
 }

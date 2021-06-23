@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Autobarn.Data.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace Autobarn.Data {
 	public interface IAutobarnDatabase {
@@ -15,9 +10,9 @@ namespace Autobarn.Data {
 		public Vehicle FindVehicle(string registration);
 		public Model FindModel(string code);
 		public Manufacturer FindManufacturer(string code);
-		
-		public void AddVehicle(Vehicle vehicle);
+
+		public void CreateVehicle(Vehicle vehicle);
+		public void UpdateVehicle(Vehicle vehicle);
+		public void DeleteVehicle(Vehicle vehicle);
 	}
-
-
 }

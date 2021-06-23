@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Autobarn.Data;
-using Autobarn.Data.Entities;
 
 namespace Autobarn.Website.Controllers {
 	public class ModelsController : Controller {
