@@ -27,10 +27,17 @@ namespace Autobarn.Website.Tests {
 		[Fact]
 		public async void GET_vehicles_returns_vehicle_data() {
 			var client = factory.CreateClient();
-			var response = await client.GetAsync("/api/vehicles");
-			var json = await response.Content.ReadAsStringAsync();
-			var vehicles = JsonConvert.DeserializeObject<List<Vehicle>>(json);
-			vehicles.Count.ShouldBeGreaterThan(0);
+			var result = await client.GetVehicles();
+			var items = result.items;
+			((int)items.Count).ShouldBeGreaterThan(0);
+		}
+
+		[Fact]
+		public async void GET_vehicles_includes_hypermedia_links() {
+			var client = factory.CreateClient();
+			var result = await client.GetVehicles();
+			var links = result._links;
+			((string) links.next.href).ShouldStartWith("/api/vehicles");
 		}
 
 		[Fact]
@@ -77,6 +84,12 @@ namespace Autobarn.Website.Tests {
 	}
 
 	public static class HttpClientExtensions {
+		public static async Task<dynamic> GetVehicles(this HttpClient client) {
+			var response = await client.GetAsync("/api/vehicles");
+			var json = await response.Content.ReadAsStringAsync();
+			return JsonConvert.DeserializeObject<dynamic>(json);
+		}
+
 		public static async Task<HttpResponseMessage> PutVolkswagen(this HttpClient client, string registration, string color, int year) {
 			var vehicle = new { modelCode = "volkswagen-beetle", registration, color, year };
 			var content = new StringContent(JsonConvert.SerializeObject(vehicle), Encoding.UTF8, "application/json");
