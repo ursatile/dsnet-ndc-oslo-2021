@@ -11,22 +11,20 @@ using Xunit;
 
 namespace Autobarn.Website.Tests {
 	public class ApiTests : IClassFixture<TestWebApplicationFactory<Startup>> {
-		private readonly TestWebApplicationFactory<Startup> factory;
+		private HttpClient client;
 
 		public ApiTests(TestWebApplicationFactory<Startup> factory) {
-			this.factory = factory;
+			this.client = factory.CreateClient();
 		}
 
 		[Fact]
 		public async void GET_vehicles_returns_success_status_code() {
-			var client = factory.CreateClient();
 			var response = await client.GetAsync("/api/vehicles");
 			Assert.True(response.IsSuccessStatusCode);
 		}
 
 		[Fact]
 		public async void GET_vehicles_returns_vehicle_data() {
-			var client = factory.CreateClient();
 			var result = await client.GetVehicles();
 			var items = result.items;
 			((int)items.Count).ShouldBeGreaterThan(0);
@@ -34,7 +32,6 @@ namespace Autobarn.Website.Tests {
 
 		[Fact]
 		public async void GET_vehicles_includes_hypermedia_links() {
-			var client = factory.CreateClient();
 			var result = await client.GetVehicles();
 			var links = result._links;
 			((string) links.next.href).ShouldStartWith("/api/vehicles");
@@ -43,7 +40,6 @@ namespace Autobarn.Website.Tests {
 		[Fact]
 		public async void POST_creates_vehicle() {
 			var registration = Guid.NewGuid().ToString("N");
-			var client = factory.CreateClient();
 			var vehicle = new {
 				modelCode = "volkswagen-beetle",
 				registration,
@@ -62,7 +58,6 @@ namespace Autobarn.Website.Tests {
 		[Fact]
 		public async void PUT_creates_vehicle() {
 			var registration = Guid.NewGuid().ToString("N");
-			var client = factory.CreateClient();
 			await client.PutVolkswagen(registration, "Green", 1985);
 			var (_, vehicle) = await client.GetVehicle(registration);
 			vehicle.Color.ShouldBe("Green");
@@ -72,7 +67,6 @@ namespace Autobarn.Website.Tests {
 		[Fact]
 		public async void PUT_updates_vehicle() {
 			var registration = Guid.NewGuid().ToString("N");
-			var client = factory.CreateClient();
 			await client.PutVolkswagen(registration, "Green", 1985);
 			var (_, vehicle) = await client.GetVehicle(registration);
 			vehicle.Color.ShouldBe("Green");
@@ -81,9 +75,23 @@ namespace Autobarn.Website.Tests {
 			vehicle.Color.ShouldBe("Brown");
 			await client.DeleteAsync($"/api/vehicles/{registration}");
 		}
+
+		[Fact]
+		public async void Vehicles_Pagination_Tests() {
+			var page1 = await client.GetVehicles();
+			((string)page1._links.previous).ShouldBe(null);
+			var page2 = await client.Get((string)page1._links.next.href);
+			((string)page2._links.previous.href).ShouldNotBe(null);
+		}
 	}
 
 	public static class HttpClientExtensions {
+		public static async Task<dynamic> Get(this HttpClient client, string url) {
+			var response = await client.GetAsync((string)url);
+			var json = await response.Content.ReadAsStringAsync();
+			return JsonConvert.DeserializeObject<dynamic>(json);
+		}
+
 		public static async Task<dynamic> GetVehicles(this HttpClient client) {
 			var response = await client.GetAsync("/api/vehicles");
 			var json = await response.Content.ReadAsStringAsync();
