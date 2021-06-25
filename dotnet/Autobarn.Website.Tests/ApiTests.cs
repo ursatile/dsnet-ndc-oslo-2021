@@ -99,7 +99,10 @@ namespace Autobarn.Website.Tests {
 		}
 
 		public static async Task<HttpResponseMessage> PutVolkswagen(this HttpClient client, string registration, string color, int year) {
-			var vehicle = new { modelCode = "volkswagen-beetle", registration, color, year };
+			var vehicle = new {
+				_links = new { vehicleModel = new { href = "/api/models/volkswagen-beetle" } },
+				registration, color, year
+			};
 			var content = new StringContent(JsonConvert.SerializeObject(vehicle), Encoding.UTF8, "application/json");
 			return await client.PutAsync($"/api/vehicles/{registration}", content);
 		}
