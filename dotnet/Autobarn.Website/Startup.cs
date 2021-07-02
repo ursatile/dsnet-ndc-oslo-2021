@@ -37,8 +37,8 @@ namespace Autobarn.Website {
 
 			services.AddScoped<AutobarnSchema>();
 			services
-				.AddGraphQL(options => options.EnableMetrics = false).AddSystemTextJson();
-
+				.AddGraphQL(options => options.EnableMetrics = false)
+				.AddNewtonsoftJson();
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
