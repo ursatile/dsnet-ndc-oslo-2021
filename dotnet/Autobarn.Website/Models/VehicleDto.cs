@@ -42,7 +42,7 @@ namespace Autobarn.Website.Models {
 			"Purple", "Red", "Silver", "Turquoise", "White", "Yellow"
 		};
 
-		private static readonly SelectListItem blankSelectListItem = new("select...", String.Empty);
+		private static readonly SelectListItem blankSelectListItem = new SelectListItem("select...", String.Empty);
 		public static IEnumerable<SelectListItem> ListColors(string selectedColor) {
 			var items = new List<SelectListItem> { blankSelectListItem };
 			items.AddRange(colors.Select(c => new SelectListItem(c, c, c == selectedColor)));
