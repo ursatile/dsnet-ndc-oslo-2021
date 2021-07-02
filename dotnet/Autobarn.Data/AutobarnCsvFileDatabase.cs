@@ -10,9 +10,10 @@ using static System.Int32;
 namespace Autobarn.Data {
 	public class AutobarnCsvFileDatabase : IAutobarnDatabase {
 		private static readonly IEqualityComparer<string> collation = StringComparer.OrdinalIgnoreCase;
-		private readonly Dictionary<string, Manufacturer> manufacturers = new(collation);
-		private readonly Dictionary<string, Model> models = new(collation);
-		private readonly Dictionary<string, Vehicle> vehicles = new(collation);
+
+		private readonly Dictionary<string, Manufacturer> manufacturers = new Dictionary<string, Manufacturer>(collation);
+		private readonly Dictionary<string, Model> models = new Dictionary<string, Model>(collation);
+		private readonly Dictionary<string, Vehicle> vehicles = new Dictionary<string, Vehicle>(collation);
 		private readonly ILogger<AutobarnCsvFileDatabase> logger;
 
 		public AutobarnCsvFileDatabase(ILogger<AutobarnCsvFileDatabase> logger) {
