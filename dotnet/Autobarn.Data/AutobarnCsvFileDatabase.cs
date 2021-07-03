@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Autobarn.Data.Entities;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Autobarn.Data.Entities;
-using Microsoft.Extensions.Logging;
 using static System.Int32;
 
 namespace Autobarn.Data {
@@ -104,7 +104,7 @@ namespace Autobarn.Data {
 		}
 
 		public void UpdateVehicle(Vehicle vehicle) {
-			vehicles[vehicle.Registration] = vehicle; 
+			vehicles[vehicle.Registration] = vehicle;
 		}
 
 		public void DeleteVehicle(Vehicle vehicle) {

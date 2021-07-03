@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using Autobarn.Data;
+﻿using Autobarn.Data;
 using Autobarn.Data.Entities;
 using Autobarn.Website.Models;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -53,7 +53,7 @@ namespace Autobarn.Website.Controllers.api {
 				Color = dto.Color,
 				Year = dto.Year,
 				ModelCode = vehicleModel.Code
-			}; 
+			};
 			db.UpdateVehicle(vehicle);
 			return Ok(dto);
 		}
