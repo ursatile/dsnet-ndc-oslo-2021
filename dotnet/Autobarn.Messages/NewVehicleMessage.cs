@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace Autobarn.Messages {
-	public class NewCarMessage {
+	public class NewVehicleMessage {
 		public string Registration { get; set; }
 		public string Manufacturer { get; set; }
 		public string Model { get; set; }

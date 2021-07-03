@@ -31,7 +31,7 @@ namespace Autobarn.Website {
 					services.AddSingleton<IAutobarnDatabase, AutobarnCsvFileDatabase>();
 					break;
 			}
-			var bus = RabbitHutch.CreateBus(Configuration.GetConnectionString("RabbitMQ"));
+			var bus = RabbitHutch.CreateBus(Configuration.GetConnectionString("AutobarnRabbitMQ"));
 			services.AddSingleton<IBus>(bus);
 		}
 
