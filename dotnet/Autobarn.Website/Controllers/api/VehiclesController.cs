@@ -12,11 +12,11 @@ namespace Autobarn.Website.Controllers.api {
 	public class VehiclesController : ControllerBase {
 		private readonly IAutobarnDatabase db;
 
-		// GET: api/vehicles
 		public VehiclesController(IAutobarnDatabase db) {
 			this.db = db;
 		}
 
+		// GET: api/vehicles
 		[HttpGet]
 		public IEnumerable<Vehicle> Get() {
 			return db.ListVehicles();
