@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Autobarn.Website.Models {
 	public class VehicleDto {
@@ -37,7 +37,7 @@ namespace Autobarn.Website.Models {
 		[DisplayName("Colour")]
 		public string Color { get; set; }
 
-		private static string[] colors = new[] {
+		private static readonly string[] colors = new[] {
 			"Black", "Blue", "Gold", "Green", "Grey", "Orange",
 			"Purple", "Red", "Silver", "Turquoise", "White", "Yellow"
 		};

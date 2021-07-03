@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Autobarn.Data.Entities;
+using System.Collections.Generic;
 using System.Linq;
-using Autobarn.Data.Entities;
 
 namespace Autobarn.Data {
 	public class AutobarnSqlDatabase : IAutobarnDatabase {

@@ -1,4 +1,3 @@
-using System;
 using Autobarn.Data;
 using Autobarn.Website.GraphQL.Schemas;
 using GraphiQl;
@@ -8,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace Autobarn.Website {
 	public class Startup {

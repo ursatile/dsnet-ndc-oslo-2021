@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Autobarn.Data;
+using Microsoft.AspNetCore.Mvc;
 using System.Linq;
-using Autobarn.Data;
 
 namespace Autobarn.Website.Controllers {
 	public class ModelsController : Controller {

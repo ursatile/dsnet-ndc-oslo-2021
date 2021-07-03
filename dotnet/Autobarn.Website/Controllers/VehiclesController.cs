@@ -1,7 +1,7 @@
-﻿	using Microsoft.AspNetCore.Mvc;
-using Autobarn.Data;
+﻿using Autobarn.Data;
 using Autobarn.Data.Entities;
 using Autobarn.Website.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Autobarn.Website.Controllers {
 	public class VehiclesController : Controller {
