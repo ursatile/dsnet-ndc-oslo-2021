@@ -6,6 +6,9 @@ a.navbar-brand {
   text-align: center;
   word-break: break-all;
 }
+li.nav-item.align-right {
+    margin-left: auto;
+}
 
 /* Provide sufficient contrast against white background */
 a {
