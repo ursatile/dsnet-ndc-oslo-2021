@@ -8,10 +8,9 @@ namespace Autobarn.Website.Tests {
 	public class TestWebApplicationFactory<T> : WebApplicationFactory<T> where T : class {
 		protected override void ConfigureWebHost(IWebHostBuilder builder) {
 			builder.ConfigureServices(services => {
-					services.RemoveAll(typeof(IAutobarnDatabase));
-					services.AddSingleton<IAutobarnDatabase, AutobarnCsvFileDatabase>();
-				}
-			);
+				services.RemoveAll(typeof(IAutobarnDatabase));
+				services.AddSingleton<IAutobarnDatabase, AutobarnCsvFileDatabase>();
+			});
 		}
 	}
 }

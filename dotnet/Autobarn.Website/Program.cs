@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
 using System.Net;
-using Microsoft.Extensions.Logging;
 
 namespace Autobarn.Website {
 	public class Program {

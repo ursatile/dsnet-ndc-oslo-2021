@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Autobarn.Data.Entities;
+﻿using Autobarn.Data.Entities;
+using System.Collections.Generic;
 
 namespace Autobarn.Data {
 	public interface IAutobarnDatabase {
