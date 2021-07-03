@@ -12,13 +12,13 @@ namespace Autobarn.AuditLog {
 		private const string SUBSCRIBER_ID = "Autobarn.AuditLog";
 
 		static async Task Main(string[] args) {
-			using var bus = RabbitHutch.CreateBus(config.GetConnectionString("rabbitmq"));
+			using var bus = RabbitHutch.CreateBus(config.GetConnectionString("AutobarnRabbitMQ"));
 			Console.WriteLine("Connected! Listening for NewCarMessage messages.");
-			await bus.PubSub.SubscribeAsync<NewCarMessage>(SUBSCRIBER_ID, HandleNewCarMessage);
+			await bus.PubSub.SubscribeAsync<NewVehicleMessage>(SUBSCRIBER_ID, HandleNewVehicleMessage);
 			Console.ReadKey(true);
 		}
 
-		private static void HandleNewCarMessage(NewCarMessage message) {
+		private static void HandleNewVehicleMessage(NewVehicleMessage message) {
 			var csv =
 				$"{message.Registration},{message.Manufacturer},{message.Model},{message.Color},{message.Year},{message.ListedAtUtc:O}";
 			Console.WriteLine(csv);

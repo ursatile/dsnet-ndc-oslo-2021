@@ -1,4 +1,5 @@
 ﻿using Autobarn.Data;
+using EasyNetQ;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,6 +11,8 @@ namespace Autobarn.Website.Tests {
 			builder.ConfigureServices(services => {
 				services.RemoveAll(typeof(IAutobarnDatabase));
 				services.AddSingleton<IAutobarnDatabase, AutobarnCsvFileDatabase>();
+				services.RemoveAll(typeof(IBus));
+				services.AddSingleton<IBus>(new TestBus());
 			});
 		}
 	}

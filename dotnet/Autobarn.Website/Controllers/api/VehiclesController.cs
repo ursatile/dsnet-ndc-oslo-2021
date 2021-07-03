@@ -1,8 +1,11 @@
-﻿using Autobarn.Data;
+﻿using System;
+using Autobarn.Data;
 using Autobarn.Data.Entities;
 using Autobarn.Website.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using Autobarn.Messages;
+using EasyNetQ;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,9 +14,11 @@ namespace Autobarn.Website.Controllers.api {
 	[ApiController]
 	public class VehiclesController : ControllerBase {
 		private readonly IAutobarnDatabase db;
+		private readonly IBus bus;
 
-		public VehiclesController(IAutobarnDatabase db) {
+		public VehiclesController(IAutobarnDatabase db, IBus bus) {
 			this.db = db;
+			this.bus = bus;
 		}
 
 		// GET: api/vehicles
@@ -41,7 +46,20 @@ namespace Autobarn.Website.Controllers.api {
 				VehicleModel = vehicleModel
 			};
 			db.CreateVehicle(vehicle);
+			PublishNewVehicleMessage(vehicle);
 			return Ok(dto);
+		}
+
+		private void PublishNewVehicleMessage(Vehicle vehicle) {
+			var message = new NewVehicleMessage() {
+				Registration = vehicle.Registration,
+				Manufacturer = vehicle.VehicleModel?.Manufacturer?.Name,
+				Model = vehicle.VehicleModel?.Name,
+				Color = vehicle.Color,
+				Year = vehicle.Year,
+				ListedAtUtc = DateTime.UtcNow
+			};
+			bus.PubSub.Publish(message);
 		}
 
 		// PUT api/vehicles/ABC123
