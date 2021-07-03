@@ -16,6 +16,7 @@ namespace Autobarn.Website.Controllers.api {
 			this.db = db;
 		}
 
+		// GET: api/vehicles
 		[HttpGet]
 		public IEnumerable<Vehicle> Get() {
 			return db.ListVehicles();
