@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using Shouldly;
 using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -11,10 +10,10 @@ using Xunit;
 
 namespace Autobarn.Website.Tests {
 	public class ApiTests : IClassFixture<TestWebApplicationFactory<Startup>> {
-		private HttpClient client;
+		private readonly HttpClient client;
 
 		public ApiTests(TestWebApplicationFactory<Startup> factory) {
-			this.client = factory.CreateClient();
+			client = factory.CreateClient();
 		}
 
 		[Fact]
@@ -34,7 +33,7 @@ namespace Autobarn.Website.Tests {
 		public async void GET_vehicles_includes_hypermedia_links() {
 			var result = await client.GetVehicles();
 			var links = result._links;
-			((string) links.next.href).ShouldStartWith("/api/vehicles");
+			((string)links.next.href).ShouldStartWith("/api/vehicles");
 		}
 
 		[Fact]

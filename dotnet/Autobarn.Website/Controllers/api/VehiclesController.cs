@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using Autobarn.Data;
+﻿using Autobarn.Data;
 using Autobarn.Data.Entities;
 using Autobarn.Website.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Routing.Template;
+using System.Dynamic;
+using System.Linq;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -48,8 +46,8 @@ namespace Autobarn.Website.Controllers.api {
 			if (vehicle == default) return NotFound();
 			var json = vehicle.ToDynamic();
 			json._links = new {
-				self = new {href = $"/api/vehicles/{id}"},
-				vehicleModel = new {href = $"/api/models/{vehicle.ModelCode}"}
+				self = new { href = $"/api/vehicles/{id}" },
+				vehicleModel = new { href = $"/api/models/{vehicle.ModelCode}" }
 			};
 			json._actions = new {
 				update = new {
