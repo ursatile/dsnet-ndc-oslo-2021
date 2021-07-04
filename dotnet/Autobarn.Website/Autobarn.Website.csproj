@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="EasyNetQ" Version="6.3.1" />
     <PackageReference Include="GraphQL.Server.Transports.AspNetCore.NewtonsoftJson" Version="5.0.2" />
     <PackageReference Include="GraphiQL" Version="2.0.0" />
     <PackageReference Include="GraphQL" Version="4.5.0" />
@@ -17,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Autobarn.Data\Autobarn.Data.csproj" />
+    <ProjectReference Include="..\Autobarn.Messages\Autobarn.Messages.csproj" />
   </ItemGroup>
 
 </Project>

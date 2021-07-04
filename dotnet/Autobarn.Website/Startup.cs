@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using EasyNetQ;
 
 namespace Autobarn.Website {
 	public class Startup {
@@ -26,7 +27,6 @@ namespace Autobarn.Website {
 			services.AddRouting(options => options.LowercaseUrls = true);
 			services.AddControllersWithViews().AddNewtonsoftJson(options => options.UseCamelCasing(processDictionaryKeys: true));
 			services.AddRazorPages().AddRazorRuntimeCompilation();
-			Console.WriteLine(DatabaseMode);
 			switch (DatabaseMode) {
 				case "sql":
 					var sqlConnectionString = Configuration.GetConnectionString("AutobarnSqlConnectionString");
@@ -36,6 +36,8 @@ namespace Autobarn.Website {
 					services.AddSingleton<IAutobarnDatabase, AutobarnCsvFileDatabase>();
 					break;
 			}
+			var bus = RabbitHutch.CreateBus(Configuration.GetConnectionString("AutobarnRabbitMQ"));
+			services.AddSingleton<IBus>(bus);
 
 			services.AddSignalR();
 
