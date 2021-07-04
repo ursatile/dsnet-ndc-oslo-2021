@@ -2,6 +2,7 @@ using Autobarn.Data;
 using Autobarn.Website.GraphQL.Schemas;
 using GraphiQl;
 using GraphQL.Server;
+using Autobarn.Website.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -36,6 +37,8 @@ namespace Autobarn.Website {
 					break;
 			}
 
+			services.AddSignalR();
+
 			services.AddScoped<AutobarnSchema>();
 			services
 				.AddGraphQL(options => options.EnableMetrics = false)
@@ -63,6 +66,7 @@ namespace Autobarn.Website {
 				endpoints.MapControllerRoute(
 					name: "default",
 					pattern: "{controller=Home}/{action=Index}/{id?}");
+				endpoints.MapHub<AutobarnHub>("/hub");
 			});
 		}
 	}
