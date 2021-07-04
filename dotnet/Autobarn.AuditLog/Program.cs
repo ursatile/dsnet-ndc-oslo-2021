@@ -13,7 +13,7 @@ namespace Autobarn.AuditLog {
 
 		static async Task Main(string[] args) {
 			using var bus = RabbitHutch.CreateBus(config.GetConnectionString("AutobarnRabbitMQ"));
-			Console.WriteLine("Connected! Listening for NewCarMessage messages.");
+			Console.WriteLine("Connected! Listening for NewVehicleMessage messages.");
 			await bus.PubSub.SubscribeAsync<NewVehicleMessage>(SUBSCRIBER_ID, HandleNewVehicleMessage);
 			Console.ReadKey(true);
 		}
