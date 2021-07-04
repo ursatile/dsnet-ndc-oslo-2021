@@ -1,4 +1,6 @@
-﻿#nullable disable
+﻿using Newtonsoft.Json;
+
+#nullable disable
 
 namespace Autobarn.Data.Entities {
 	public partial class Vehicle {
@@ -7,6 +9,7 @@ namespace Autobarn.Data.Entities {
 		public string Color { get; set; }
 		public int Year { get; set; }
 
+		[JsonIgnore]
 		public virtual Model VehicleModel { get; set; }
 	}
 }
