@@ -1,8 +1,8 @@
-﻿using System;
+﻿using EasyNetQ;
+using EasyNetQ.Internals;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using EasyNetQ;
-using EasyNetQ.Internals;
 
 namespace Autobarn.Website.Tests {
 	public class TestPubSub : IPubSub {

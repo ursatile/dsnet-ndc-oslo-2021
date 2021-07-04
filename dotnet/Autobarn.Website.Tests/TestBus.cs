@@ -5,10 +5,10 @@ namespace Autobarn.Website.Tests {
 		private readonly TestPubSub pubSub;
 
 		public TestBus() {
-			this.pubSub = new TestPubSub();
+			pubSub = new TestPubSub();
 		}
 		public void Dispose() { }
-		public IPubSub PubSub { get => this.pubSub; }
+		public IPubSub PubSub { get => pubSub; }
 		public IRpc Rpc { get; }
 		public ISendReceive SendReceive { get; }
 		public IScheduler Scheduler { get; }

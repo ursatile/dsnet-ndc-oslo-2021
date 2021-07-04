@@ -1,15 +1,14 @@
 using Autobarn.Data;
 using Autobarn.Website.GraphQL.Schemas;
+using Autobarn.Website.Hubs;
+using EasyNetQ;
 using GraphiQl;
 using GraphQL.Server;
-using Autobarn.Website.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using EasyNetQ;
 
 namespace Autobarn.Website {
 	public class Startup {

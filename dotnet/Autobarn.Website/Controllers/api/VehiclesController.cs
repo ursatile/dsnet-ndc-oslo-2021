@@ -1,14 +1,13 @@
-﻿using System;
-using Autobarn.Data;
+﻿using Autobarn.Data;
 using Autobarn.Data.Entities;
+using Autobarn.Messages;
 using Autobarn.Website.Models;
+using EasyNetQ;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using System;
 using System.Dynamic;
 using System.Linq;
-using System.Collections.Generic;
-using Autobarn.Messages;
-using EasyNetQ;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

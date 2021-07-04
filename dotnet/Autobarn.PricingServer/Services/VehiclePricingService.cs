@@ -12,7 +12,8 @@ namespace Autobarn.PricingServer.Services {
 		public override Task<PriceReply> GetPrice(PriceRequest request, ServerCallContext context) {
 			//TODO: calculate prices properly!
 			return Task.FromResult(new PriceReply {
-				Price = 5000
+				Price = 5000,
+				CurrencyCode = "EUR"
 			});
 		}
 	}
