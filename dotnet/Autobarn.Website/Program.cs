@@ -24,6 +24,7 @@ namespace Autobarn.Website {
 						var https = UseCertIfAvailable(@"d:\workshop.ursatile.com\ursatile.com.pfx", pfxPassword);
 						options.ListenAnyIP(5000, listenOptions => listenOptions.Protocols = HttpProtocols.Http1AndHttp2);
 						options.Listen(IPAddress.Any, 5001, https);
+						options.AllowSynchronousIO = true;
 					});
 					webBuilder.UseStartup<Startup>();
 				}
