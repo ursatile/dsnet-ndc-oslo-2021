@@ -88,7 +88,8 @@ namespace Autobarn.Website.Controllers.api {
 			var message = new NewVehicleMessage() {
 				Registration = vehicle.Registration,
 				Manufacturer = vehicle.VehicleModel?.Manufacturer?.Name,
-				Model = vehicle.VehicleModel?.Name,
+				ModelName = vehicle.VehicleModel?.Name,
+				ModelCode = vehicle.VehicleModel?.Code,
 				Color = vehicle.Color,
 				Year = vehicle.Year,
 				ListedAtUtc = DateTime.UtcNow
