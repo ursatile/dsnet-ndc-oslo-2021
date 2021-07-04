@@ -20,7 +20,7 @@ namespace Autobarn.AuditLog {
 
 		private static void HandleNewVehicleMessage(NewVehicleMessage message) {
 			var csv =
-				$"{message.Registration},{message.Manufacturer},{message.Model},{message.Color},{message.Year},{message.ListedAtUtc:O}";
+				$"{message.Registration},{message.Manufacturer},{message.ModelName},{message.Color},{message.Year},{message.ListedAtUtc:O}";
 			Console.WriteLine(csv);
 		}
 
