@@ -1,4 +1,4 @@
-﻿function setCookie(key, value) {
+function setCookie(key, value) {
     var expires = new Date();
     expires.setTime(expires.getTime() + 1 * 24 * 60 * 60 * 1000);
     document.cookie = key + "=" + value + ";expires=" + expires.toUTCString();
@@ -61,9 +61,7 @@ function getCookie(key) {
                     if (action.type) {
                         form += "<p><label>type:</label>" + action.type + "</p>";
                         form += "<p><label>body:</label> <textarea rows='10' cols='80'>";
-                        if (action.method === "PUT") {
-                            form += putJson;
-                        }
+                        if (action.method === "PUT") form += putJson;
                         form += "</textarea></p>";
                     }
                     form += "</form>";
@@ -93,7 +91,7 @@ function getCookie(key) {
         var type = method || "GET";
         this.showSpinner(function () {
             $.ajax({
-                headers: { Accept: $("#api-version-select").val() },
+                headers: { },
                 url: absoluteUrl,
                 type: type,
                 data: data,
@@ -146,11 +144,7 @@ function getCookie(key) {
         return html;
     };
 
-    this.addHeaders = function (xhr) {
-        var username = $("#username-input").val();
-        var password = $("#password-input").val();
-        if (username && password) xhr.setRequestHeader("Authorization", "Basic " + btoa(username + ":" + password));
-    };
+    this.addHeaders = function (xhr) { };
 
     this.go = function (url) {
         if (typeof url === "string") {
@@ -171,7 +165,6 @@ function getCookie(key) {
         var textarea = $form.find("textarea")[0];
         var data = null;
         if (textarea) {
-            console.log($(textarea).val());
             var json = $form.find("textarea").val();
             data = json ? JSON.stringify(JSON.parse(json)) : null;
         }
@@ -180,8 +173,6 @@ function getCookie(key) {
     }
 
     $(function () {
-        $("#username-input").change(function () { setCookie("explorer_username", this.value); });
-        $("#password-input").change(function () { setCookie("explorer_password", this.value); });
         $("#server-input").change(function () { setCookie("explorer_server", this.value); });
         $("#explorer-form").submit(function () {
             go();
@@ -204,10 +195,8 @@ function getCookie(key) {
         });
 
         $(document).on("submit", "form.api-form", handleForm);
-
-        $("#username-input").val(getCookie("explorer_username"));
-        $("#password-input").val(getCookie("explorer_password"));
-        var apiServer = getCookie("explorer_server") || "http://localhost";
+        var apiServer = getCookie("explorer_server") ||
+            location.protocol + "//" + location.host;
         $("#server-input").val(apiServer);
 
         $("#go-button").click(go);
@@ -220,6 +209,5 @@ function getCookie(key) {
             go(location.hash.substring(1));
         });
         go(location.hash.substring(1) || "/");
-        // self.loadResource(url);
     });
 })();
