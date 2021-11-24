@@ -9,6 +9,7 @@ using System.Net;
 namespace Autobarn.Website {
 	public class Program {
 		public static void Main(string[] args) {
+            Console.WriteLine("Starting Autobarn.Website...");
 			CreateHostBuilder(args).Build().Run();
 		}
 
@@ -24,6 +25,7 @@ namespace Autobarn.Website {
 						var https = UseCertIfAvailable(@"d:\workshop.ursatile.com\ursatile.com.pfx", pfxPassword);
 						options.ListenAnyIP(5000, listenOptions => listenOptions.Protocols = HttpProtocols.Http1AndHttp2);
 						options.Listen(IPAddress.Any, 5001, https);
+                        options.AllowSynchronousIO = true;
 					});
 					webBuilder.UseStartup<Startup>();
 				}
