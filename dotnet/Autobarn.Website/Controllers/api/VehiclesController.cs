@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Routing;
 using System;
 using System.Dynamic;
 using System.Linq;
+using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -40,7 +41,22 @@ namespace Autobarn.Website.Controllers.api {
 			var items = db.ListVehicles().Skip(index).Take(count);
 			var total = db.CountVehicles();
 			var _links = Paginate("/api/vehicles", index, count, total);
-			var result = new { _links, index, count, total, items };
+			var _actions = new {
+				create = new {
+					method = "POST",
+					type = "application/json",
+					name = "Create a new vehicle",
+					href = "/api/vehicles"
+				},
+				delete = new {
+					method = "DELETE",
+					name = "Delete a vehicle",
+					href = "/api/vehicles/{id}"
+				}
+			};
+			var result = new {
+				_links, _actions, index, count, total, items
+			};
 			return Ok(result);
 		}
 
@@ -70,7 +86,7 @@ namespace Autobarn.Website.Controllers.api {
 
 		// POST api/vehicles
 		[HttpPost]
-		public IActionResult Post([FromBody] VehicleDto dto) {
+		public async Task<IActionResult> Post([FromBody] VehicleDto dto) {
 			var vehicleModel = db.FindModel(dto.ModelCode);
 			var vehicle = new Vehicle {
 				Registration = dto.Registration,
@@ -79,12 +95,12 @@ namespace Autobarn.Website.Controllers.api {
 				VehicleModel = vehicleModel
 			};
 			db.CreateVehicle(vehicle);
-			PublishNewVehicleMessage(vehicle);
+			await PublishNewVehicleMessage(vehicle);
 			return Ok(dto);
 		}
 
-		private void PublishNewVehicleMessage(Vehicle vehicle) {
-			var message = new NewVehicleMessage() {
+		private async Task PublishNewVehicleMessage(Vehicle vehicle) {
+			var newVehicleMessage = new NewVehicleMessage() {
 				Registration = vehicle.Registration,
 				Manufacturer = vehicle.VehicleModel?.Manufacturer?.Name,
 				ModelName = vehicle.VehicleModel?.Name,
@@ -93,7 +109,7 @@ namespace Autobarn.Website.Controllers.api {
 				Year = vehicle.Year,
 				ListedAtUtc = DateTime.UtcNow
 			};
-			bus.PubSub.Publish(message);
+			await bus.PubSub.PublishAsync(newVehicleMessage);
 		}
 
 		// PUT api/vehicles/ABC123

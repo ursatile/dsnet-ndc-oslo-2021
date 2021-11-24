@@ -27,15 +27,17 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Vehicles" asp-action="Index">All Cars</a>
                         </li>
-                        <li class="nav-item align-right">
-                            <a class="nav-link text-dark" href="/graphiql">GraphiQL GUI</a>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/hyperion/#/api">ReST API</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/graphiql">GraphQL API</a>
                         </li>
                     </ul>
                 </div>
             </div>
-        </div>
-    </nav>
-</header>
+        </nav>
+    </header>
     <div id="signalr-notifications"></div>
     <div class="container">
         <main role="main" class="pb-3">
@@ -46,7 +48,6 @@
 <footer class="border-top footer text-muted">
     <div class="container">
         This is a sample app for <a href="https://dylanbeattie.net/">Dylan Beattie's</a> workshop <a href="https://urs.tl/dsnet">Distributed Systems with .NET</a>
-
     </div>
 </footer>
     <!-- load SignalR from CloudFlare's CDN -->
