@@ -9,7 +9,8 @@ using System.Net;
 namespace Autobarn.PricingServer {
 	public class Program {
 		public static void Main(string[] args) {
-			CreateHostBuilder(args).Build().Run();
+            Console.WriteLine("Starting Autobarn.PricingServer...");
+            CreateHostBuilder(args).Build().Run();
 		}
 
 		public static IHostBuilder CreateHostBuilder(string[] args) =>
