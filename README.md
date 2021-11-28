@@ -1,7 +1,33 @@
-# Autobarn
-This is the sample application for Dylan Beattie's workshop on distributed systems with .NET. It's an Asp.NET Core web application based on very simple data model for advertising used cars for sale.
+# Introduction to Distributed Systems with C# and .NET
+This repo contains the sample application for Dylan Beattie's workshop on distributed systems with .NET. It's an Asp.NET Core web application based on very simple data model for advertising used cars for sale.
+
+### Links and Resources
+
+This repository is at **[https://github.com/ursatile/dsnet-ndc-oslo-2021](https://github.com/ursatile/dsnet-ndc-oslo-2021)**
+
+The workshop handbook is online at **[https://ursatile.github.io/dsnet/](https://ursatile.github.io/dsnet/)**
+
+The live examples we’ll be running during the workshop will be available at:
+
+**[https://workshop.ursatile.com:5001/](https://workshop.ursatile.com:5001/)**
+
+*(Don’t panic - there’s nothing there until we’re actually running the workshop.)*
+
+### Tools
+
+The Postman API client we’re using is available at [https://www.postman.com/downloads/](https://www.postman.com/downloads/)
+
+The Microsoft .NET SDK is available at:
+
+[https://dotnet.microsoft.com/download/visual-studio-sdks](https://dotnet.microsoft.com/download/visual-studio-sdks)
+
+> *(The sample code here will run on .NET Core 3.1 with no modifications. If you want to run it on .NET 5 or .NET 6 you’ll need to make a few small changes to the project files.)*
+
+
 
 ## Getting Started
+
+
 
 Run the `Autobarn.Website` project. *(The sample projects are configured for .NET 5.0, but will run on .NET Core 3.1 or Framework 4.6 if you modify the .csproj files to change the project targets - see below)*
 
