@@ -5,7 +5,6 @@ import os
 import price_pb2_grpc as pb2_grpc
 import price_pb2 as pb2
 
-
 class PricingService(pb2_grpc.PricerServicer):
     def __init__(self, *args, **kwargs):
         pass
@@ -24,12 +23,11 @@ class PricingService(pb2_grpc.PricerServicer):
 
         return pb2.PriceReply(**result)
 
-
 def serve():
-    if os.path.isdir("D:/workshop.ursatile.com"):
-        with open('D:/workshop.ursatile.com/workshop.ursatile.com.key', 'rb') as f:
+    if os.path.isdir("D:/dropbox/workshop.ursatile.com"):
+        with open('D:/dropbox/workshop.ursatile.com/workshop.ursatile.com.key', 'rb') as f:
             private_key = f.read()
-        with open('D:/workshop.ursatile.com/workshop.ursatile.com.crt', 'rb') as f:
+        with open('D:/dropbox/workshop.ursatile.com/workshop.ursatile.com.crt', 'rb') as f:
             certificate_chain = f.read()
         server_credentials = grpc.ssl_server_credentials(
             ((private_key, certificate_chain,),))
@@ -46,3 +44,4 @@ def serve():
 
 if __name__ == '__main__':
     serve()
+
