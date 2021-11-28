@@ -39,7 +39,7 @@ dotnet run
 
 Browse to [http://localhost:5000](http://localhost:5000) and you should see the Autobarn homepage:
 
-![image-20210519192001483](images/autobarn-homepage-screenshot.png)
+![image-20210519192001483](images/autobarn-website-homepage.png)
 
 Click the "All Cars" link (or go to http://localhost:5000/vehicles) and you should see a long list of car registration numbers.
 
