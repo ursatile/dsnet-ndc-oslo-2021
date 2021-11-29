@@ -3,6 +3,7 @@ using Autobarn.Data.Entities;
 using Autobarn.Website.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -22,19 +23,27 @@ namespace Autobarn.Website.Controllers.api {
         [HttpGet]
         [Produces("application/hal+json")]
         public IActionResult Get(int index = 0, int count = 10) {
-            var items = db.ListVehicles().Skip(index).Take(count);
+            var items = db.ListVehicles().Skip(index).Take(count).ToList();
+            var total = db.CountVehicles();
+            dynamic _links = new ExpandoObject();
+            _links.self = new {
+                href = $"/api/vehicles?index={index}&count={count}"
+            };
+            if (index - count >= 0) {
+                _links.prev = new { href = $"/api/vehicles?index={index - count}&count={count}" };
+                _links.first = new { href = $"/api/vehicles?index=0&count={count}" };
+            }
+            if (index + count < total)
+            {
+                _links.next = new { href = $"/api/vehicles?index={index + count}&count={count}" };
+                _links.final = new { href = $"/api/vehicles?index={total - (total % count)}&count={count}" };
+            }
+
             var result = new {
-                _links = new {
-                    self = new {
-                        href = $"/api/vehicles?index={index}&count={count}"
-                    },
-                    next = new {
-                        href = $"/api/vehicles?index={index + count}&count={count}"
-                    },
-                    prev = new {
-                        href = $"/api/vehicles?index={index - count}&count={count}"
-                    }
-                },
+                _links,
+                total,
+                index,
+                count = items.Count(),
                 items
             };
             return Ok(result);
