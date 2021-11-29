@@ -36,17 +36,8 @@ namespace Autobarn.Website.Controllers.api {
                 .Select(v => v.ToResource());
             var total = db.CountVehicles();
             var _links = HypermediaExtensions.Paginate("/api/vehicles", index, count, total);
-            var _actions = new {
-                create = new {
-                    href = "/api/vehicles",
-                    method = "POST",
-                    type = "application/json",
-                    name = "Create a new vehicle"
-                }
-            };
             var result = new {
                 _links,
-                _actions,
                 total,
                 index,
                 count = items.Count(),
@@ -65,30 +56,7 @@ namespace Autobarn.Website.Controllers.api {
             return Ok(result);
         }
 
-        // POST api/vehicles
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody] VehicleDto dto) {
-            var existing = db.FindVehicle(dto.Registration);
-            if (existing != default)
-                return Conflict(
-                    $"Sorry - there is already a vehicle with registration {dto.Registration} in our system.");
-            var vehicleModel = db.FindModel(dto.ModelCode);
-            var vehicle = new Vehicle {
-                Registration = dto.Registration,
-                Color = dto.Color,
-                Year = dto.Year,
-                VehicleModel = vehicleModel
-            };
-            db.CreateVehicle(vehicle);
-            await PublishNewVehicleMessage(vehicle);
-            logger.LogInformation($"Created new vehicle: {vehicle.Registration} ({vehicleModel?.Name} {vehicleModel?.Manufacturer?.Name}, {vehicle.Year})");
-            return Created($"/api/vehicles/{dto.Registration}", vehicle.ToResource());
-        }
-        private async Task PublishNewVehicleMessage(Vehicle vehicle) {
-            var message = vehicle.ToMessage();
-            await bus.PubSub.PublishAsync(message);
-        }
-
+        
         // PUT api/vehicles/ABC123
         [HttpPut("{id}")]
         public IActionResult Put(string id, [FromBody] VehicleDto dto) {
