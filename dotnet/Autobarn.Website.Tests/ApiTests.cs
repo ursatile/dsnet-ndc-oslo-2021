@@ -24,14 +24,14 @@ namespace Autobarn.Website.Tests {
 			Assert.True(response.IsSuccessStatusCode);
 		}
 
-		[Fact]
-		public async void GET_vehicles_returns_vehicle_data() {
-			var client = factory.CreateClient();
-			var response = await client.GetAsync("/api/vehicles");
-			var json = await response.Content.ReadAsStringAsync();
-			var vehicles = JsonConvert.DeserializeObject<List<Vehicle>>(json);
-			vehicles.Count.ShouldBeGreaterThan(0);
-		}
+		//[Fact]
+		//public async void GET_vehicles_returns_vehicle_data() {
+		//	var client = factory.CreateClient();
+		//	var response = await client.GetAsync("/api/vehicles");
+		//	var json = await response.Content.ReadAsStringAsync();
+		//	var vehicles = JsonConvert.DeserializeObject<List<Vehicle>>(json);
+		//	vehicles.Count.ShouldBeGreaterThan(0);
+		//}
 
 		[Fact]
 		public async void POST_creates_vehicle() {
