@@ -37,7 +37,7 @@ namespace Autobarn.Website.Controllers.api {
 
         public static dynamic Paginate(string url, int index, int count, int total) {
             dynamic links = new ExpandoObject();
-            links.self = new { href = url };
+            links.self = new { href = $"{url}?index={index}&count={count}" };
             links.final = new { href = $"{url}?index={total - (total % count)}&count={count}" };
             links.first = new { href = $"{url}?index=0&count={count}" };
             if (index > 0) links.previous = new { href = $"{url}?index={index - count}&count={count}" };
