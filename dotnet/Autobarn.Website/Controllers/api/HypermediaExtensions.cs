@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Dynamic;
 using System.Linq;
 using Autobarn.Data.Entities;
+using Autobarn.Messages;
 using Newtonsoft.Json;
 
 namespace Autobarn.Website.Controllers.api {
@@ -43,6 +45,18 @@ namespace Autobarn.Website.Controllers.api {
             if (index > 0) links.previous = new { href = $"{url}?index={index - count}&count={count}" };
             if (index + count < total) links.next = new { href = $"{url}?index={index + count}&count={count}" };
             return links;
+        }
+
+        public static NewVehicleMessage ToMessage(this Vehicle vehicle) {
+            var message = new NewVehicleMessage() {
+                Registration = vehicle.Registration,
+                Color = vehicle.Color,
+                ManufacturerName = vehicle?.VehicleModel?.Manufacturer?.Name,
+                ModelName = vehicle?.VehicleModel?.Name,
+                Year = vehicle.Year,
+                CreatedAt = DateTimeOffset.UtcNow,
+            };
+            return message;
         }
 
     }

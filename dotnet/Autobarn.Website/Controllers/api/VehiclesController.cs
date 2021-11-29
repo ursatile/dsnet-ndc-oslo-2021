@@ -4,6 +4,8 @@ using Autobarn.Website.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Dynamic;
 using System.Linq;
+using System.Threading.Tasks;
+using EasyNetQ;
 using Microsoft.Extensions.Logging;
 using ILogger = Castle.Core.Logging.ILogger;
 
@@ -15,10 +17,14 @@ namespace Autobarn.Website.Controllers.api {
     [ApiController]
     public class VehiclesController : ControllerBase {
         private readonly IAutobarnDatabase db;
+        private readonly IBus bus;
         private readonly ILogger<VehiclesController> logger;
 
-        public VehiclesController(IAutobarnDatabase db, ILogger<VehiclesController> logger) {
+        public VehiclesController(IAutobarnDatabase db, 
+            IBus bus,
+            ILogger<VehiclesController> logger) {
             this.db = db;
+            this.bus = bus;
             this.logger = logger;
         }
 
@@ -61,7 +67,7 @@ namespace Autobarn.Website.Controllers.api {
 
         // POST api/vehicles
         [HttpPost]
-        public IActionResult Post([FromBody] VehicleDto dto) {
+        public async Task<IActionResult> Post([FromBody] VehicleDto dto) {
             var existing = db.FindVehicle(dto.Registration);
             if (existing != default)
                 return Conflict(
@@ -74,8 +80,13 @@ namespace Autobarn.Website.Controllers.api {
                 VehicleModel = vehicleModel
             };
             db.CreateVehicle(vehicle);
+            await PublishNewVehicleMessage(vehicle);
             logger.LogInformation($"Created new vehicle: {vehicle.Registration} ({vehicleModel?.Name} {vehicleModel?.Manufacturer?.Name}, {vehicle.Year})");
             return Created($"/api/vehicles/{dto.Registration}", vehicle.ToResource());
+        }
+        private async Task PublishNewVehicleMessage(Vehicle vehicle) {
+            var message = vehicle.ToMessage();
+            await bus.PubSub.PublishAsync(message);
         }
 
         // PUT api/vehicles/ABC123

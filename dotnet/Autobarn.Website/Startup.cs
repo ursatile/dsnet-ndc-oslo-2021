@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using EasyNetQ;
 
 namespace Autobarn.Website {
 	public class Startup {
@@ -31,7 +32,10 @@ namespace Autobarn.Website {
 					services.AddSingleton<IAutobarnDatabase, AutobarnCsvFileDatabase>();
 					break;
 			}
-		}
+
+            var bus = RabbitHutch.CreateBus(Configuration.GetConnectionString("AutobarnRabbitMQ"));
+            services.AddSingleton<IBus>(bus);
+        }
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
 			if (env.IsDevelopment()) {
