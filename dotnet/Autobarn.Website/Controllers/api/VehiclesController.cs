@@ -3,8 +3,10 @@ using Autobarn.Data.Entities;
 using Autobarn.Website.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Dynamic;
 using System.Linq;
+using Newtonsoft.Json;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -33,12 +35,10 @@ namespace Autobarn.Website.Controllers.api {
                 _links.prev = new { href = $"/api/vehicles?index={index - count}&count={count}" };
                 _links.first = new { href = $"/api/vehicles?index=0&count={count}" };
             }
-            if (index + count < total)
-            {
+            if (index + count < total) {
                 _links.next = new { href = $"/api/vehicles?index={index + count}&count={count}" };
                 _links.final = new { href = $"/api/vehicles?index={total - (total % count)}&count={count}" };
             }
-
             var result = new {
                 _links,
                 total,
@@ -51,10 +51,17 @@ namespace Autobarn.Website.Controllers.api {
 
         // GET api/vehicles/ABC123
         [HttpGet("{id}")]
+        [Produces("application/hal+json")]
         public IActionResult Get(string id) {
             var vehicle = db.FindVehicle(id);
             if (vehicle == default) return NotFound();
-            return Ok(vehicle);
+            var result = vehicle.ToDynamic();
+            result._links = new {
+                self = new {
+                    href = $"/api/vehicles/{vehicle.Registration}"
+                }
+            };
+            return Ok(result);
         }
 
         // POST api/vehicles
@@ -92,6 +99,22 @@ namespace Autobarn.Website.Controllers.api {
             if (vehicle == default) return NotFound();
             db.DeleteVehicle(vehicle);
             return NoContent();
+        }
+    }
+
+    public static class HypermediaExtensions {
+        public static dynamic ToDynamic(this object value) {
+            IDictionary<string, object> expando = new ExpandoObject();
+            var properties = TypeDescriptor.GetProperties(value.GetType());
+            foreach (PropertyDescriptor prop in properties) {
+                if (Ignore(prop)) continue;
+                expando.Add(prop.Name, prop.GetValue(value));
+            }
+            return (ExpandoObject)expando;
+        }
+
+        private static bool Ignore(PropertyDescriptor prop) {
+            return prop.Attributes.OfType<JsonIgnoreAttribute>().Any();
         }
     }
 }
