@@ -2,11 +2,8 @@
 using Autobarn.Data.Entities;
 using Autobarn.Website.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Dynamic;
 using System.Linq;
-using Newtonsoft.Json;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -25,20 +22,10 @@ namespace Autobarn.Website.Controllers.api {
         [HttpGet]
         [Produces("application/hal+json")]
         public IActionResult Get(int index = 0, int count = 10) {
-            var items = db.ListVehicles().Skip(index).Take(count).ToList();
+            var items = db.ListVehicles().Skip(index).Take(count).ToList()
+                .Select(v => v.ToResource());
             var total = db.CountVehicles();
-            dynamic _links = new ExpandoObject();
-            _links.self = new {
-                href = $"/api/vehicles?index={index}&count={count}"
-            };
-            if (index - count >= 0) {
-                _links.prev = new { href = $"/api/vehicles?index={index - count}&count={count}" };
-                _links.first = new { href = $"/api/vehicles?index=0&count={count}" };
-            }
-            if (index + count < total) {
-                _links.next = new { href = $"/api/vehicles?index={index + count}&count={count}" };
-                _links.final = new { href = $"/api/vehicles?index={total - (total % count)}&count={count}" };
-            }
+            var _links = HypermediaExtensions.Paginate("/api/vehicles", index, count, total);
             var result = new {
                 _links,
                 total,
@@ -55,12 +42,7 @@ namespace Autobarn.Website.Controllers.api {
         public IActionResult Get(string id) {
             var vehicle = db.FindVehicle(id);
             if (vehicle == default) return NotFound();
-            var result = vehicle.ToDynamic();
-            result._links = new {
-                self = new {
-                    href = $"/api/vehicles/{vehicle.Registration}"
-                }
-            };
+            var result = vehicle.ToResource();
             return Ok(result);
         }
 
@@ -99,22 +81,6 @@ namespace Autobarn.Website.Controllers.api {
             if (vehicle == default) return NotFound();
             db.DeleteVehicle(vehicle);
             return NoContent();
-        }
-    }
-
-    public static class HypermediaExtensions {
-        public static dynamic ToDynamic(this object value) {
-            IDictionary<string, object> expando = new ExpandoObject();
-            var properties = TypeDescriptor.GetProperties(value.GetType());
-            foreach (PropertyDescriptor prop in properties) {
-                if (Ignore(prop)) continue;
-                expando.Add(prop.Name, prop.GetValue(value));
-            }
-            return (ExpandoObject)expando;
-        }
-
-        private static bool Ignore(PropertyDescriptor prop) {
-            return prop.Attributes.OfType<JsonIgnoreAttribute>().Any();
         }
     }
 }
