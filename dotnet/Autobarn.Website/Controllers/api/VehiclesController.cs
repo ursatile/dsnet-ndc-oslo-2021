@@ -4,6 +4,8 @@ using Autobarn.Website.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Dynamic;
 using System.Linq;
+using Microsoft.Extensions.Logging;
+using ILogger = Castle.Core.Logging.ILogger;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,9 +15,11 @@ namespace Autobarn.Website.Controllers.api {
     [ApiController]
     public class VehiclesController : ControllerBase {
         private readonly IAutobarnDatabase db;
+        private readonly ILogger<VehiclesController> logger;
 
-        public VehiclesController(IAutobarnDatabase db) {
+        public VehiclesController(IAutobarnDatabase db, ILogger<VehiclesController> logger) {
             this.db = db;
+            this.logger = logger;
         }
 
         // GET: api/vehicles
@@ -57,7 +61,8 @@ namespace Autobarn.Website.Controllers.api {
                 VehicleModel = vehicleModel
             };
             db.CreateVehicle(vehicle);
-            return Ok(dto);
+            logger.LogInformation($"Created new vehicle: {vehicle.Registration} ({vehicleModel?.Name} {vehicleModel?.Manufacturer?.Name}, {vehicle.Year})");
+            return Ok(vehicle.ToResource());
         }
 
         // PUT api/vehicles/ABC123
