@@ -44,13 +44,15 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            This is a sample app for <a href="https://dylanbeattie.net/">Dylan Beattie's</a> workshop <a href="https://urs.tl/dsnet">Distributed Systems with .NET</a>
+<footer class="border-top footer text-muted">
+    <div class="container">
+        This is a sample app for <a href="https://dylanbeattie.net/">Dylan Beattie's</a> workshop <a href="https://urs.tl/dsnet">Distributed Systems with .NET</a>
 
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    </div>
+</footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.16/signalr.min.js" 
+        integrity="sha512-u9ogfmXtxjaWJfZRXKpspzaHvHIG8OHuGEeH4hihu73jX2Z/pBPQy+nLnz5Bc6T7jDbswEaGvIjSwyHTyk37Zw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
