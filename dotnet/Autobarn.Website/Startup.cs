@@ -59,8 +59,8 @@ namespace Autobarn.Website {
 			app.UseAuthorization();
 
 
-            app.UseGraphQL<AutobarnSchema>();
-            app.UseGraphiQl("/graphiql");
+            app.UseGraphQL<AutobarnSchema>("/foo");
+            app.UseGraphiQl("/graphiql", "/foo");
 			app.UseEndpoints(endpoints => {
 				endpoints.MapControllerRoute(
 					name: "default",

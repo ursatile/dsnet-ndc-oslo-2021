@@ -20,8 +20,4 @@
     <ProjectReference Include="..\Autobarn.Messages\Autobarn.Messages.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="GraphQL\Queries\" />
-  </ItemGroup>
-
 </Project>
