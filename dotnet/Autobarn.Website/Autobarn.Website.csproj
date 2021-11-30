@@ -21,7 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="GraphQL\Schemas\" />
     <Folder Include="GraphQL\Queries\" />
   </ItemGroup>
 
