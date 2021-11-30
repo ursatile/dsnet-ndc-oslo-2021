@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option csharp_namespace = "GreetingProto";
+
+package greet;
+
+message HelloRequest {
+    string name = 1;
+    string language = 2;
+    int32 friendliness = 3;
+}
+
+message HelloReply {
+    string greeting = 1;
+}
+
+service Greeter {
+    rpc SayHello (HelloRequest) returns (HelloReply);
+}
+
+
