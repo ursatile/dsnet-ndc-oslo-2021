@@ -9,13 +9,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Autobarn.Data", "Autobarn.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Autobarn.Website.Tests", "Autobarn.Website.Tests\Autobarn.Website.Tests.csproj", "{39C4F7B7-43D1-493F-97EE-E7C57D6C7F07}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Autobarn.Messages", "Autobarn.Messages\Autobarn.Messages.csproj", "{2AC177F0-C3DB-4A12-8D47-D6B5095F04CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Autobarn.Messages", "Autobarn.Messages\Autobarn.Messages.csproj", "{2AC177F0-C3DB-4A12-8D47-D6B5095F04CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Autobarn.AuditLog", "Autobarn.AuditLog\Autobarn.AuditLog.csproj", "{743A63B9-13C7-4730-92B3-8AC7727FA588}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Autobarn.AuditLog", "Autobarn.AuditLog\Autobarn.AuditLog.csproj", "{743A63B9-13C7-4730-92B3-8AC7727FA588}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Autobarn.PricingServer", "Autobarn.PricingServer\Autobarn.PricingServer.csproj", "{0027424F-F3A8-4320-B2B0-892AC5CDBFEC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Autobarn.PricingServer", "Autobarn.PricingServer\Autobarn.PricingServer.csproj", "{0027424F-F3A8-4320-B2B0-892AC5CDBFEC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Autobarn.PricingClient", "Autobarn.PricingClient\Autobarn.PricingClient.csproj", "{74E10DFD-31E8-4056-8028-83FCFCE5B871}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Autobarn.PricingClient", "Autobarn.PricingClient\Autobarn.PricingClient.csproj", "{74E10DFD-31E8-4056-8028-83FCFCE5B871}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Autobarn.Notifier", "Autobarn.Notifier\Autobarn.Notifier.csproj", "{EC028460-5E97-4460-8D06-1322D83B15B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -111,6 +113,18 @@ Global
 		{74E10DFD-31E8-4056-8028-83FCFCE5B871}.Release|x64.Build.0 = Release|Any CPU
 		{74E10DFD-31E8-4056-8028-83FCFCE5B871}.Release|x86.ActiveCfg = Release|Any CPU
 		{74E10DFD-31E8-4056-8028-83FCFCE5B871}.Release|x86.Build.0 = Release|Any CPU
+		{EC028460-5E97-4460-8D06-1322D83B15B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC028460-5E97-4460-8D06-1322D83B15B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC028460-5E97-4460-8D06-1322D83B15B5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EC028460-5E97-4460-8D06-1322D83B15B5}.Debug|x64.Build.0 = Debug|Any CPU
+		{EC028460-5E97-4460-8D06-1322D83B15B5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EC028460-5E97-4460-8D06-1322D83B15B5}.Debug|x86.Build.0 = Debug|Any CPU
+		{EC028460-5E97-4460-8D06-1322D83B15B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC028460-5E97-4460-8D06-1322D83B15B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC028460-5E97-4460-8D06-1322D83B15B5}.Release|x64.ActiveCfg = Release|Any CPU
+		{EC028460-5E97-4460-8D06-1322D83B15B5}.Release|x64.Build.0 = Release|Any CPU
+		{EC028460-5E97-4460-8D06-1322D83B15B5}.Release|x86.ActiveCfg = Release|Any CPU
+		{EC028460-5E97-4460-8D06-1322D83B15B5}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

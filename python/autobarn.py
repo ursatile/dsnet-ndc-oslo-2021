@@ -27,4 +27,5 @@ def serve():
     server.wait_for_termination()
 
 if __name__ == '__main__':
+    print("Running Autobarn.py pricing server in Python!");
     serve()

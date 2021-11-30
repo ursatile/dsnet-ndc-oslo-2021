@@ -5,23 +5,23 @@ using System.IO;
 using System.Threading.Tasks;
 using Autobarn.Messages;
 
-namespace Autobarn.AuditLog {
+namespace Autobarn.Notifier {
     internal class Program {
         private static readonly IConfigurationRoot config = ReadConfiguration();
 
         static async Task Main(string[] args) {
-            Console.WriteLine("Starting Autobarn.AuditLog");
+            Console.WriteLine("Starting Autobarn.Notifier");
             var amqp = config.GetConnectionString("AutobarnRabbitMQ");
             using var bus = RabbitHutch.CreateBus(amqp);
             Console.WriteLine("Connected to bus! Listening for newVehicleMessages");
-            var subscriberId = $"Autobarn.AuditLog@{Environment.MachineName}";
-            await bus.PubSub.SubscribeAsync<NewVehicleMessage>(subscriberId, HandleNewVehicleMessage);
+            var subscriberId = $"Autobarn.Notifier@{Environment.MachineName}";
+            await bus.PubSub.SubscribeAsync<NewVehiclePriceMessage>(subscriberId, HandleNewVehicleMessage);
             Console.ReadLine();
         }
 
-        private static void HandleNewVehicleMessage(NewVehicleMessage nvm) {
+        private static void HandleNewVehicleMessage(NewVehiclePriceMessage nvm) {
             var csvRow =
-                $"{nvm.Registration},{nvm.ManufacturerName},{nvm.ModelName},{nvm.Year},{nvm.Color},{nvm.CreatedAt:O}";
+                $"{nvm.Price} {nvm.CurrencyCode} : {nvm.Registration},{nvm.ManufacturerName},{nvm.ModelName},{nvm.Year},{nvm.Color},{nvm.CreatedAt:O}";
             Console.WriteLine(csvRow);
         }
 
