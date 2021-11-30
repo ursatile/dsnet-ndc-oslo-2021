@@ -16,7 +16,6 @@ message PriceRequest {
   string model = 2;
   string color = 3;
   sint32 year = 4;
-  uint32 mileage = 5;
 }
 
 // The response message containing the greetings.

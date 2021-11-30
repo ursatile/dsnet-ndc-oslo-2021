@@ -15,26 +15,27 @@ namespace Autobarn.PricingClient {
             var amqp = config.GetConnectionString("AutobarnRabbitMQ");
             using var bus = RabbitHutch.CreateBus(amqp);
             Console.WriteLine("Connected to bus; Listening for newVehicleMessages");
-            using var channel = GrpcChannel.ForAddress(config["AutobarnGrpcServerAddress"]);
+            var grpcAddress = config["AutobarnGrpcServerAddress"];
+            using var channel = GrpcChannel.ForAddress(grpcAddress);
             grpcClient = new Pricer.PricerClient(channel);
-            Console.WriteLine("Connected to gRPC!");
-            var subscriberId = $"Autobarn.AuditLog@{Environment.MachineName}";
+            Console.WriteLine($"Connected to gRPC on {grpcAddress}!");
+            var subscriberId = $"Autobarn.PricingClient@{Environment.MachineName}";
             await bus.PubSub.SubscribeAsync<NewVehicleMessage>(subscriberId, HandleNewVehicleMessage);
             Console.WriteLine("Press Enter to exit");
             Console.ReadLine();
         }
 
-        private static async Task HandleNewVehicleMessage(NewVehicleMessage message) {
+        private static void HandleNewVehicleMessage(NewVehicleMessage message) {
+            Console.WriteLine($"new vehicle; {message.Registration}");
             var priceRequest = new PriceRequest() {
                 Color = message.Color,
                 Manufacturer = message.ManufacturerName,
                 Model = message.ModelName,
                 Year = message.Year
             };
-            var priceReply = await grpcClient.GetPriceAsync(priceRequest);
+            var priceReply = grpcClient.GetPrice(priceRequest);
             Console.WriteLine($"Vehicle {message.Registration} costs {priceReply.Price} {priceReply.CurrencyCode}");
         }
-
         private static IConfigurationRoot ReadConfiguration() {
             var basePath = Directory.GetParent(AppContext.BaseDirectory).FullName;
             return new ConfigurationBuilder()
