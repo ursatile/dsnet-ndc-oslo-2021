@@ -6,12 +6,16 @@ using System.Threading.Tasks;
 using Autobarn.Messages;
 using Microsoft.AspNetCore.SignalR.Client;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Autobarn.Notifier {
     internal class Program {
         private static readonly IConfigurationRoot config = ReadConfiguration();
         private static HubConnection hub;
         static async Task Main(string[] args) {
+            JsonConvert.DefaultSettings = JsonSettings;
+            Console.WriteLine("Press any key to start connecting to stuff");
+            Console.ReadKey();
             var signalRHubUrl = config["AutobarnSignalRHubUrl"];
             hub = new HubConnectionBuilder().WithUrl(signalRHubUrl).Build();
             await hub.StartAsync();
@@ -34,6 +38,12 @@ namespace Autobarn.Notifier {
                 json);
         }
 
+        static JsonSerializerSettings JsonSettings() =>
+            new JsonSerializerSettings {
+                ContractResolver = new DefaultContractResolver {
+                    NamingStrategy = new CamelCaseNamingStrategy()
+                }
+            };
         private static IConfigurationRoot ReadConfiguration() {
             var basePath = Directory.GetParent(AppContext.BaseDirectory).FullName;
             return new ConfigurationBuilder()
